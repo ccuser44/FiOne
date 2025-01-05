@@ -551,7 +551,7 @@ local function on_lua_error(failed, err)
 	local src = failed.source
 	local line = failed.lines[failed.pc - 1]
 
-	error(string.format('%s:%i: %s', src, line, err), 0)
+	error(string.format('%s:%i: %s', src or "FiOne VM", line or 0, err or "Unknown error"), 0)
 end
 
 local function run_lua_func(state, env, upvals)

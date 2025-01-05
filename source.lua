@@ -15,13 +15,13 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ]] --
-local bit = bit or bit32 or require('bit')
+local bit = bit or bit32 or require("bit")
 
 if not table.create then if table.new then table.create = table.new else function table.create(_) return {} end end end
 
 if not table.unpack then table.unpack = unpack end
 
-if not table.pack then function table.pack(...) return {n = select('#', ...), ...} end end
+if not table.pack then function table.pack(...) return {n = select("#", ...), ...} end end
 
 if not table.move then
 	function table.move(src, first, last, offset, dst)
@@ -85,85 +85,85 @@ local OPCODE_RM = {
 
 -- opcode types for getting values
 local OPCODE_T = {
-	[0] = 'ABC',
-	'ABx',
-	'ABC',
-	'ABC',
-	'ABC',
-	'ABx',
-	'ABC',
-	'ABx',
-	'ABC',
-	'ABC',
-	'ABC',
-	'ABC',
-	'ABC',
-	'ABC',
-	'ABC',
-	'ABC',
-	'ABC',
-	'ABC',
-	'ABC',
-	'ABC',
-	'ABC',
-	'ABC',
-	'AsBx',
-	'ABC',
-	'ABC',
-	'ABC',
-	'ABC',
-	'ABC',
-	'ABC',
-	'ABC',
-	'ABC',
-	'AsBx',
-	'AsBx',
-	'ABC',
-	'ABC',
-	'ABC',
-	'ABx',
-	'ABC',
+	[0] = "ABC",
+	"ABx",
+	"ABC",
+	"ABC",
+	"ABC",
+	"ABx",
+	"ABC",
+	"ABx",
+	"ABC",
+	"ABC",
+	"ABC",
+	"ABC",
+	"ABC",
+	"ABC",
+	"ABC",
+	"ABC",
+	"ABC",
+	"ABC",
+	"ABC",
+	"ABC",
+	"ABC",
+	"ABC",
+	"AsBx",
+	"ABC",
+	"ABC",
+	"ABC",
+	"ABC",
+	"ABC",
+	"ABC",
+	"ABC",
+	"ABC",
+	"AsBx",
+	"AsBx",
+	"ABC",
+	"ABC",
+	"ABC",
+	"ABx",
+	"ABC",
 }
 
 local OPCODE_M = {
-	[0] = {b = 'OpArgR', c = 'OpArgN'},
-	{b = 'OpArgK', c = 'OpArgN'},
-	{b = 'OpArgU', c = 'OpArgU'},
-	{b = 'OpArgR', c = 'OpArgN'},
-	{b = 'OpArgU', c = 'OpArgN'},
-	{b = 'OpArgK', c = 'OpArgN'},
-	{b = 'OpArgR', c = 'OpArgK'},
-	{b = 'OpArgK', c = 'OpArgN'},
-	{b = 'OpArgU', c = 'OpArgN'},
-	{b = 'OpArgK', c = 'OpArgK'},
-	{b = 'OpArgU', c = 'OpArgU'},
-	{b = 'OpArgR', c = 'OpArgK'},
-	{b = 'OpArgK', c = 'OpArgK'},
-	{b = 'OpArgK', c = 'OpArgK'},
-	{b = 'OpArgK', c = 'OpArgK'},
-	{b = 'OpArgK', c = 'OpArgK'},
-	{b = 'OpArgK', c = 'OpArgK'},
-	{b = 'OpArgK', c = 'OpArgK'},
-	{b = 'OpArgR', c = 'OpArgN'},
-	{b = 'OpArgR', c = 'OpArgN'},
-	{b = 'OpArgR', c = 'OpArgN'},
-	{b = 'OpArgR', c = 'OpArgR'},
-	{b = 'OpArgR', c = 'OpArgN'},
-	{b = 'OpArgK', c = 'OpArgK'},
-	{b = 'OpArgK', c = 'OpArgK'},
-	{b = 'OpArgK', c = 'OpArgK'},
-	{b = 'OpArgR', c = 'OpArgU'},
-	{b = 'OpArgR', c = 'OpArgU'},
-	{b = 'OpArgU', c = 'OpArgU'},
-	{b = 'OpArgU', c = 'OpArgU'},
-	{b = 'OpArgU', c = 'OpArgN'},
-	{b = 'OpArgR', c = 'OpArgN'},
-	{b = 'OpArgR', c = 'OpArgN'},
-	{b = 'OpArgN', c = 'OpArgU'},
-	{b = 'OpArgU', c = 'OpArgU'},
-	{b = 'OpArgN', c = 'OpArgN'},
-	{b = 'OpArgU', c = 'OpArgN'},
-	{b = 'OpArgU', c = 'OpArgN'},
+	[0] = {b = "OpArgR", c = "OpArgN"},
+	{b = "OpArgK", c = "OpArgN"},
+	{b = "OpArgU", c = "OpArgU"},
+	{b = "OpArgR", c = "OpArgN"},
+	{b = "OpArgU", c = "OpArgN"},
+	{b = "OpArgK", c = "OpArgN"},
+	{b = "OpArgR", c = "OpArgK"},
+	{b = "OpArgK", c = "OpArgN"},
+	{b = "OpArgU", c = "OpArgN"},
+	{b = "OpArgK", c = "OpArgK"},
+	{b = "OpArgU", c = "OpArgU"},
+	{b = "OpArgR", c = "OpArgK"},
+	{b = "OpArgK", c = "OpArgK"},
+	{b = "OpArgK", c = "OpArgK"},
+	{b = "OpArgK", c = "OpArgK"},
+	{b = "OpArgK", c = "OpArgK"},
+	{b = "OpArgK", c = "OpArgK"},
+	{b = "OpArgK", c = "OpArgK"},
+	{b = "OpArgR", c = "OpArgN"},
+	{b = "OpArgR", c = "OpArgN"},
+	{b = "OpArgR", c = "OpArgN"},
+	{b = "OpArgR", c = "OpArgR"},
+	{b = "OpArgR", c = "OpArgN"},
+	{b = "OpArgK", c = "OpArgK"},
+	{b = "OpArgK", c = "OpArgK"},
+	{b = "OpArgK", c = "OpArgK"},
+	{b = "OpArgR", c = "OpArgU"},
+	{b = "OpArgR", c = "OpArgU"},
+	{b = "OpArgU", c = "OpArgU"},
+	{b = "OpArgU", c = "OpArgU"},
+	{b = "OpArgU", c = "OpArgN"},
+	{b = "OpArgR", c = "OpArgN"},
+	{b = "OpArgR", c = "OpArgN"},
+	{b = "OpArgN", c = "OpArgU"},
+	{b = "OpArgU", c = "OpArgU"},
+	{b = "OpArgN", c = "OpArgN"},
+	{b = "OpArgU", c = "OpArgN"},
+	{b = "OpArgU", c = "OpArgN"},
 }
 
 -- int rd_int_basic(string src, int s, int e, int d)
@@ -354,11 +354,11 @@ local function stm_inst_list(S)
 		local mode = OPCODE_M[op]
 		local data = {value = ins, op = OPCODE_RM[op], A = bit.band(bit.rshift(ins, 6), 0xFF)}
 
-		if args == 'ABC' then
+		if args == "ABC" then
 			data.B = bit.band(bit.rshift(ins, 23), 0x1FF)
 			data.C = bit.band(bit.rshift(ins, 14), 0x1FF)
-			data.is_KB = mode.b == 'OpArgK' and data.B > 0xFF -- post process optimization
-			data.is_KC = mode.c == 'OpArgK' and data.C > 0xFF
+			data.is_KB = mode.b == "OpArgK" and data.B > 0xFF -- post process optimization
+			data.is_KC = mode.c == "OpArgK" and data.C > 0xFF
 
 			if op == 10 then -- decode NEWTABLE array size, store it as constant value
 				local e = bit.band(bit.rshift(data.B, 3), 31)
@@ -368,10 +368,10 @@ local function stm_inst_list(S)
 					data.const = bit.lshift(bit.band(data.B, 7) + 8, e - 1)
 				end
 			end
-		elseif args == 'ABx' then
+		elseif args == "ABx" then
 			data.Bx = bit.band(bit.rshift(ins, 14), 0x3FFFF)
-			data.is_K = mode.b == 'OpArgK'
-		elseif args == 'AsBx' then
+			data.is_K = mode.b == "OpArgK"
+		elseif args == "AsBx" then
 			data.sBx = bit.band(bit.rshift(ins, 14), 0x3FFFF) - 131071
 		end
 
@@ -498,9 +498,9 @@ function lua_bc_to_state(src)
 		source = src,
 	}
 
-	assert(stm_string(stream, 4) == '\27Lua', 'invalid Lua signature')
-	assert(stm_byte(stream) == 0x51, 'invalid Lua version')
-	assert(stm_byte(stream) == 0, 'invalid Lua format')
+	assert(stm_string(stream, 4) == "\27Lua", "invalid Lua signature")
+	assert(stm_byte(stream) == 0x51, "unsupported Lua version. Only Lua 5.1 is supported")
+	assert(stm_byte(stream) == 0, "unsupported bytecode format. Only the official bytecode format is supported")
 
 	little = stm_byte(stream) ~= 0
 	size_int = stm_byte(stream)
@@ -517,12 +517,12 @@ function lua_bc_to_state(src)
 	if flag_int then
 		stream.s_num = cst_int_rdr(size_num, rdr_func)
 	elseif float_types[size_num] then
-		stream.s_num = cst_flt_rdr(size_num, float_types[size_num][little and 'little' or 'big'])
+		stream.s_num = cst_flt_rdr(size_num, float_types[size_num][little and "little" or "big"])
 	else
-		error('unsupported float size')
+		error("unsupported float size")
 	end
 
-	return stm_lua_func(stream, '@virtual')
+	return stm_lua_func(stream, "@virtual")
 end
 
 local function close_lua_upvalues(list, index)
@@ -530,7 +530,7 @@ local function close_lua_upvalues(list, index)
 		if uv.index >= index then
 			uv.value = uv.store[uv.index] -- store value
 			uv.store = uv
-			uv.index = 'value' -- self reference
+			uv.index = "value" -- self reference
 			list[i] = nil
 		end
 	end
@@ -551,7 +551,7 @@ local function on_lua_error(failed, err)
 	local src = failed.source
 	local line = failed.lines[failed.pc - 1]
 
-	error(string.format('%s:%i: %s', src, line, err), 0)
+	error(string.format("%s:%i: %s", src, line, err), 0)
 end
 
 local function run_lua_func(state, env, upvals)
@@ -982,9 +982,9 @@ local function run_lua_func(state, env, upvals)
 							local A = inst.A
 							local init, limit, step
 
-							init = assert(tonumber(memory[A]), '`for` initial value must be a number')
-							limit = assert(tonumber(memory[A + 1]), '`for` limit must be a number')
-							step = assert(tonumber(memory[A + 2]), '`for` step must be a number')
+							init = assert(tonumber(memory[A]), "`for` initial value must be a number")
+							limit = assert(tonumber(memory[A + 1]), "`for` limit must be a number")
+							step = assert(tonumber(memory[A + 2]), "`for` step must be a number")
 
 							memory[A] = init - step
 							memory[A + 1] = limit

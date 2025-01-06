@@ -32,6 +32,7 @@ end
 local lua_bc_to_state
 local lua_wrap_state
 local stm_lua_func
+local LOADNIL_CACHE = {}
 
 -- SETLIST config
 local FIELDS_PER_FLUSH = 50
@@ -574,7 +575,7 @@ local function run_lua_func(state, env, upvals)
 				if op < 3 then
 					if op < 1 then
 						--[[LOADNIL]]
-						for i = inst.A, inst.B do memory[i] = nil end
+						table.move(LOADNIL_CACHE, inst.A, inst.B, inst.A, memory)--for i = inst.A, inst.B do memory[i] = nil end
 					elseif op > 1 then
 						--[[GETUPVAL]]
 						local uv = upvals[inst.B]

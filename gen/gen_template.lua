@@ -345,9 +345,9 @@ end
 local A = inst.A
 local init, limit, step
 
-init = assert(tonumber(memory[A]), '`for` initial value must be a number')
-limit = assert(tonumber(memory[A + 1]), '`for` limit must be a number')
-step = assert(tonumber(memory[A + 2]), '`for` step must be a number')
+init = assert(tonumber(memory[A]), "`for` initial value must be a number")
+limit = assert(tonumber(memory[A + 1]), "`for` limit must be a number")
+step = assert(tonumber(memory[A + 2]), "`for` step must be a number")
 
 memory[A] = init - step
 memory[A + 1] = limit

@@ -9,7 +9,7 @@ memory[inst.A] = inst.B ~= 0
 if inst.C ~= 0 then pc = pc + 1 end
 
 --[[LOADNIL]]
-for i = inst.A, inst.B do memory[i] = nil end
+table.move(LOADNIL_CACHE, inst.A, inst.B, inst.A, memory)--for i = inst.A, inst.B do memory[i] = nil end
 
 --[[GETUPVAL]]
 local uv = upvals[inst.B]

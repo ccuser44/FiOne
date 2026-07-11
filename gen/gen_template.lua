@@ -56,7 +56,7 @@ end
 memory[inst.A][index] = value
 
 --[[NEWTABLE]]
-memory[inst.A] = table.create(inst.const) -- inst.const contains array size
+memory[inst.A] = table.create(inst.const_B, inst.const_C) -- b and c registers contain array and hash size
 
 --[[SELF]]
 local A = inst.A

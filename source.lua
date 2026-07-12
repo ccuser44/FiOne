@@ -361,6 +361,7 @@ local function stm_inst_list(S)
 			data.is_KC = mode.c == 'OpArgK' and data.C > 0xFF
 
 			if op == 10 then -- decode NEWTABLE array size, store it as constant value
+				local e = bit.band(bit.rshift(data.B, 3), 31)
 				data.const_B = e == 0 and data.B or bit.lshift(bit.band(data.B, 7) + 8, e - 1)
 
 				if _VERSION ~= "Luau" then -- Don't decode hash size for Luau
